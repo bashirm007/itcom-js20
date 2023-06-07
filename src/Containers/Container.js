@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import Person from "./components/Person/Person";
+import Person from "../components/Person/Person";
 import {nanoid} from "nanoid";
-import AddTaskForm from "./components/AddTaskForm/AddTaskForm";
+import AddTaskForm from "../components/AddTaskForm/AddTaskForm";
 
-const App = () => {
+const Container = () => {
     const [people, setPeople] = useState([
         {name: 'Dmitrii', age: 30, hobby: 'Reading books', id:nanoid()},
         {name: 'John', age: 25, hobby: 'Video games', id:nanoid()},
@@ -91,4 +91,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Container;
