@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import Person from "../components/Person/Person";
 import {nanoid} from "nanoid";
 import AddTaskForm from "../components/AddTaskForm/AddTaskForm";
+import People from "../components/People/People";
+import ToggleButton from "../components/ToggleButton/ToggleButton";
 
 const Container = () => {
     const [people, setPeople] = useState([
         {name: 'Dmitrii', age: 30, hobby: 'Reading books', id:nanoid()},
         {name: 'John', age: 25, hobby: 'Video games', id:nanoid()},
     ]);
+
+    const [showPeople, setShowPeople] = useState(false);
 
     const currentPerson = {name:'', age: Math.floor(Math.random() * 70) - 1 , id: nanoid()};
 
@@ -58,20 +61,21 @@ const Container = () => {
         setPeople(peopleCopy);
     }
 
+    const togglePeople = () => {
+        setShowPeople(!showPeople);
+    }
 
-    const peopleComponents = people.map(person => (
-        <Person
-            key={person.id}
-            name={person.name}
-            id={person.id}
-            age={person.age}
-            onHeaderClick={() => increaseAge(person.id)}
-            onNameChange={e => changeName(person.id, e.target.value)}
-            onDelete={() => deletePerson(person.id)}
-        >
-            {person.hobby}
-        </Person>
-    ))
+    let peopleComponent = null;
+
+    if(showPeople) {
+        peopleComponent =  <People
+            people={people}
+            onHeaderClick={increaseAge}
+            onNameChange={changeName}
+            onDelete={deletePerson}
+        />
+    }
+
 
     return (
         <div>
@@ -81,8 +85,9 @@ const Container = () => {
                     onAddNewPerson={addNewPerson}
                 />
             </div>
+            <ToggleButton showPeople={showPeople} togglePeople={togglePeople}/>
             <div className="flex flex-row flex-wrap mb-5">
-                {peopleComponents}
+                {peopleComponent}
             </div>
             <div className="text-center">
                 <button onClick={addPerson} className="bg-blue-700 p-3 text-white">Add person</button>
